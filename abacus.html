@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Super Kawaii Soroban Abacus</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #FFB6C1, #E6E6FA, #B0E0E6, #FFE4E1, #F0E68C);
+      background-size: 400% 400%;
+      animation: rainbow-bg 8s ease infinite;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    @keyframes rainbow-bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .soroban {
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5, #F0F8FF);
+      padding: 40px;
+      border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(255,105,180,0.3), 0 0 0 5px #FF69B4, 0 0 0 10px #FFB6C1;
+      border: 5px solid #FF1493;
+      position: relative;
+      overflow: visible;
+      animation: soroban-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes soroban-glow {
+      0%, 100% { box-shadow: 0 20px 60px rgba(255,105,180,0.3), 0 0 0 5px #FF69B4, 0 0 0 10px #FFB6C1; }
+      50% { box-shadow: 0 25px 80px rgba(255,105,180,0.5), 0 0 0 8px #FF1493, 0 0 0 15px #FFE4E1; }
+    }
+
+    .kawaii-decoration {
+      position: absolute;
+      font-size: 30px;
+      animation: float-rotate 4s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    .deco-1 { top: -20px; left: -20px; animation-delay: 0s; }
+    .deco-2 { top: -25px; right: -25px; animation-delay: 1s; }
+    .deco-3 { bottom: -30px; left: -30px; animation-delay: 2s; }
+    .deco-4 { bottom: -35px; right: -35px; animation-delay: 1.5s; }
+    .deco-5 { top: 50%; left: -40px; animation-delay: 0.5s; }
+    .deco-6 { top: 50%; right: -40px; animation-delay: 2.5s; }
+    .deco-7 { top: -30px; left: 50%; animation-delay: 3s; }
+    .deco-8 { bottom: -30px; left: 50%; animation-delay: 3.5s; }
+
+    @keyframes float-rotate {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-15px) rotate(5deg); }
+      50% { transform: translateY(-10px) rotate(-5deg); }
+      75% { transform: translateY(-20px) rotate(3deg); }
+    }
+
+    .title {
+      text-align: center;
+      color: #FF1493;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-shadow: 3px 3px 6px rgba(255,182,193,0.6);
+      animation: title-rainbow 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes title-rainbow {
+      0%, 100% { 
+        color: #FF1493;
+        transform: translateY(0px);
+      }
+      25% { 
+        color: #FF69B4;
+        transform: translateY(-2px);
+      }
+      50% { 
+        color: #FFD700;
+        transform: translateY(0px);
+      }
+      75% { 
+        color: #DA70D6;
+        transform: translateY(-1px);
+      }
+    }
+
+    .title::before {
+      content: '🌟';
+      position: absolute;
+      left: -50px;
+      animation: title-star-spin 2s linear infinite;
+    }
+
+    .title::after {
+      content: '🌟';
+      position: absolute;
+      right: -50px;
+      animation: title-star-spin 2s linear infinite reverse;
+    }
+
+    @keyframes title-star-spin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .frame {
+      background: linear-gradient(135deg, #FFFFFF, #FFF0F5, #F0F8FF);
+      padding: 30px;
+      border-radius: 25px;
+      border: 4px solid #FF1493;
+      box-shadow: inset 0 0 30px rgba(255,182,193,0.4), 0 10px 30px rgba(255,105,180,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      gap: 20px;
+    }
+
+    .frame::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, #FF69B4, #FFB6C1, #E6E6FA, #B0E0E6);
+      border-radius: 35px;
+      z-index: -1;
+      animation: frame-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes frame-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 0 5px;
+    }
+
+    .column-label {
+      position: relative;
+      top: -45px;
+      color: #FF1493;
+      font-size:15px;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5);
+      padding: 5px 10px;
+      border-radius: 15px;
+      border: 2px solid #FF69B4;
+      box-shadow: 0 3px 10px rgba(255,105,180,0.3);
+      animation: label-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes label-glow {
+      0%, 100% { box-shadow: 0 3px 10px rgba(255,105,180,0.3); }
+      50% { box-shadow: 0 5px 20px rgba(255,105,180,0.6); }
+    }
+
+    .rod {
+      position: relative;
+      width: 10px;
+      height: 332px;
+      background: linear-gradient(to bottom, #FF69B4, #FF1493, #FF69B4);
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,20,147,0.4), inset 0 0 5px rgba(255,255,255,0.3);
+      border: 2px solid #FF1493;
+      animation: rod-shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes rod-shimmer {
+      0%, 100% { box-shadow: 0 0 15px rgba(255,20,147,0.4), inset 0 0 5px rgba(255,255,255,0.3); }
+      50% { box-shadow: 0 0 25px rgba(255,20,147,0.8), inset 0 0 10px rgba(255,255,255,0.6); }
+    }
+
+    .divider {
+      position: absolute;
+      top: 90px;
+      left: -25px;
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(to right, #FF69B4, #FFD700, #FF69B4);
+      border-radius: 4px;
+      border: 2px solid #FF1493;
+      box-shadow: 0 3px 10px rgba(255,20,147,0.4);
+      animation: divider-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes divider-glow {
+      0%, 100% { box-shadow: 0 3px 10px rgba(255,20,147,0.4); }
+      50% { box-shadow: 0 5px 20px rgba(255,215,0,0.6); }
+    }
+
+    .heaven-section {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .earth-section {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .bead {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      border: 4px solid #FFFFFF;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.3s ease-in-out;
+      background-color: transparent;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      animation: bead-breathe 4s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    @keyframes bead-breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .bead::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 35%;
+      height: 35%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: highlight-twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes highlight-twinkle {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .bead::after {
+      content: '✨';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      font-size: 16px;
+      opacity: 0;
+      animation: sparkle-rotate 2s linear infinite;
+    }
+
+    @keyframes sparkle-rotate {
+      0% { transform: rotate(0deg) scale(0); opacity: 0; }
+      50% { transform: rotate(180deg) scale(1); opacity: 1; }
+      100% { transform: rotate(360deg) scale(0); opacity: 0; }
+    }
+
+    .heaven-bead {
+      background: linear-gradient(135deg, #FFD700, #FFA500, #FF69B4, #DA70D6);
+      animation: heaven-float 3s ease-in-out infinite;
+      box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+      font-size: 33px;
+    }
+
+    @keyframes heaven-float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-3px) rotate(1deg); }
+      66% { transform: translateY(-1px) rotate(-1deg); }
+    }
+
+    .earth-bead {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #87CEEB, #98FB98, #FFB6C1, #DDA0DD);
+      animation: earth-wiggle 4s ease-in-out infinite;
+      box-shadow: 0 6px 20px rgba(135,206,235,0.4);
+    }
+
+    @keyframes earth-wiggle {
+      0%, 100% { transform: translateX(0px) rotate(0deg); }
+      25% { transform: translateX(-1px) rotate(0.5deg); }
+      50% { transform: translateX(0px) rotate(0deg); }
+      75% { transform: translateX(1px) rotate(-0.5deg); }
+    }
+
+    .earth-bead:nth-child(1) { transition-delay: 0s; background: linear-gradient(135deg, #FFB6C1, #FF69B4, #DDA0DD); }
+    .earth-bead:nth-child(2) { transition-delay: 0.05s; background: linear-gradient(135deg, #98FB98, #87CEEB, #FFB6C1); }
+    .earth-bead:nth-child(3) { transition-delay: 0.1s; background: linear-gradient(135deg, #DDA0DD, #98FB98, #87CEEB); }
+    .earth-bead:nth-child(4) { transition-delay: 0.15s; background: linear-gradient(135deg, #87CEEB, #FFB6C1, #98FB98); }
+
+    .bead:hover {
+      transform: scale(1.2) rotate(5deg);
+      box-shadow: 0 10px 35px rgba(255,20,147,0.6);
+      animation: none;
+    }
+
+    .bead:hover::after {
+      animation: sparkle-rotate 0.5s linear infinite;
+    }
+
+    .bead.active {
+      animation: active-celebration 1s ease-in-out infinite alternate;
+      border-color: #FFD700;
+    }
+
+    /* Heaven bead moves DOWN when active (towards divider) */
+    .heaven-bead.active {
+      transform: translateY(19px) scale(1.1);
+    }
+
+    /* Earth beads move UP when active (towards divider) */
+    .earth-bead.active {
+      transform: translateY(-17px) scale(1.05);
+    }
+
+    @keyframes active-celebration {
+      0% { 
+        box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        filter: hue-rotate(0deg);
+      }
+      100% { 
+        box-shadow: 0 12px 40px rgba(255,20,147,0.8);
+        filter: hue-rotate(20deg);
+      }
+    }
+
+    .value-display {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 28px;
+      color: #FF1493;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5, #F0F8FF);
+      padding: 20px 30px;
+      border-radius: 25px;
+      border: 4px solid #FF69B4;
+      box-shadow: 0 8px 25px rgba(255,20,147,0.4);
+      animation: value-pulse 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes value-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .value-display::before {
+      content: '💎';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      animation: gem-sparkle 1.5s ease-in-out infinite;
+    }
+
+    .value-display::after {
+      content: '💎';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      animation: gem-sparkle 1.5s ease-in-out infinite 0.5s;
+    }
+
+    @keyframes gem-sparkle {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.3); }
+    }
+
+    .instructions {
+      text-align: center;
+      margin-top: 25px;
+      color: #FF1493;
+      font-size: 18px;
+      font-weight: bold;
+      opacity: 0.9;
+      animation: instructions-bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes instructions-bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: #FF69B4;
+      animation: heart-float 6s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes heart-float {
+      0% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(0deg);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) rotate(360deg);
+      }
+    }
+
+    .celebration-mode {
+      animation: celebration-shake 0.5s ease-in-out infinite;
+    }
+
+    @keyframes celebration-shake {
+      0%, 100% { transform: translateX(0px); }
+      25% { transform: translateX(-2px); }
+      75% { transform: translateX(2px); }
+    }
+
+    @keyframes sparkle-burst {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--dx), var(--dy)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    @keyframes celebration {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1) rotate(-2deg); }
+      50% { transform: scale(1.2) rotate(2deg); }
+      75% { transform: scale(1.1) rotate(-1deg); }
+      100% { transform: scale(1); }
+    }
+
+    .reset-button {
+      display: block;
+      margin: 10px auto;
+      padding: 15px 30px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: linear-gradient(45deg, #FF69B4, #FF1493);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255,20,147,0.4);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .reset-button:hover {
+      background: linear-gradient(45deg, #FF1493, #FF69B4);
+      box-shadow: 0 12px 25px rgba(255,20,147,0.6);
+      transform: translateY(-2px);
+    }
+
+    .reset-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(255,20,147,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-hearts" id="floating-hearts"></div>
+  
+  <div class="soroban" id="soroban">
+    <div class="kawaii-decoration deco-1">🎀</div>
+    <div class="kawaii-decoration deco-2">🌸</div>
+    <div class="kawaii-decoration deco-3">💖</div>
+    <div class="kawaii-decoration deco-4">🦄</div>
+    <div class="kawaii-decoration deco-5">🌺</div>
+    <div class="kawaii-decoration deco-6">🎨</div>
+    <div class="kawaii-decoration deco-7">🍭</div>
+    <div class="kawaii-decoration deco-8">🧸</div>
+    
+    <div class="title">🌈✨ Super Ábaco de Polina ✨🌈</div>
+    <div class="frame" id="frame"></div>
+    <div class="value-display" id="value-display">
+      0 
+    </div>
+    <div class="instructions">
+      🎪 Los gatitos chiquitos valen 1, el gordito vale 5 🎪
+    </div>
+    <button id="reset-button" class="reset-button">Resetear</button>
+  </div>
+
+  <script>
+    const catImages = [
+      'https://placekitten.com/60/60',
+      'https://placekitten.com/61/61',
+      'https://placekitten.com/62/62',
+      'https://placekitten.com/63/63',
+      'https://placekitten.com/64/64'
+    ];
+
+const catEmojis = ['🐱', '😸', '😻', '🙀', '😽'];
+
+    const labels = [
+      "100M",
+      "10M ",
+      "1M  ",
+      "100K",
+      "10K ",
+      "1K  ",
+      "100 ",
+      "10  ",
+      "1   "
+    ];
+
+    const frame = document.getElementById('frame');
+    const valueDisplay = document.getElementById('value-display');
+
+    const rods = [];
+    let heartInterval = null;
+
+    // Initialize heart rain
+    function startHeartRain() {
+      heartInterval = setInterval(() => {
+        createFloatingHeart();
+      }, 2000);
+    }
+
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = ['💖', '💝', '💗', '💕', '💘'][Math.floor(Math.random() * 5)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDelay = Math.random() * 2 + 's';
+      heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+      
+      document.getElementById('floating-hearts').appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+
+    function createSparkles(element) {
+      const rect = element.getBoundingClientRect();
+      for (let i = 0; i < 5; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.textContent = '✨';
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = (rect.left + rect.width/2) + 'px';
+        sparkle.style.top = (rect.top + rect.height/2) + 'px';
+        sparkle.style.fontSize = '20px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '9999';
+        sparkle.style.animation = `sparkle-burst 1s ease-out forwards`;
+        
+        const angle = (i * 72) * Math.PI / 180;
+        const distance = 50;
+        sparkle.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+        sparkle.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
+        
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      }
+    }
+
+    function playSound() {
+      // Enhanced visual feedback
+      document.body.style.filter = 'hue-rotate(20deg)';
+      setTimeout(() => {
+        document.body.style.filter = '';
+      }, 200);
+    }
+
+    for (let i = 0; i < 9; i++) {
+      const column = document.createElement('div');
+      column.className = 'column';
+
+      const label = document.createElement('div');
+      label.className = 'column-label';
+      label.textContent = labels[i];
+      column.appendChild(label);
+
+      const rod = document.createElement('div');
+      rod.className = 'rod';
+
+      // Heaven section with one bead
+      const heavenSection = document.createElement('div');
+      heavenSection.className = 'heaven-section';
+
+      const heavenBead = document.createElement('div');
+      heavenBead.className = 'bead heaven-bead';
+      //heavenBead.style.backgroundImage = `url('${catImages[4]}')`;
+      heavenBead.textContent = catEmojis[4];
+      heavenBead.style.backgroundColor = '#FFD700';
+      heavenSection.appendChild(heavenBead);
+      rod.appendChild(heavenSection);
+
+      // Divider
+      const divider = document.createElement('div');
+      divider.className = 'divider';
+      rod.appendChild(divider);
+
+      // Earth section with four beads
+      const earthSection = document.createElement('div');
+      earthSection.className = 'earth-section';
+
+      const earthBeads = [];
+      for (let j = 0; j < 4; j++) {
+        const earthBead = document.createElement('div');
+        earthBead.className = 'bead earth-bead';
+        //earthBead.style.backgroundImage = `url('${catImages[j]}')`;
+        earthBead.textContent = catEmojis[j]
+        const fallbackColors = ['#FFB6C1', '#98FB98', '#DDA0DD', '#87CEEB'];
+        earthBead.style.backgroundColor = fallbackColors[j];
+        earthSection.appendChild(earthBead);
+        earthBeads.push(earthBead);
+      }
+
+      rod.appendChild(earthSection);
+      column.appendChild(rod);
+      frame.appendChild(column);
+
+      // Initialize rod state
+      rods.push({
+        heavenBead,
+        earthBeads,
+        heavenActive: false,
+        earthCount: 0 // Number of active earth beads (0-4)
+      });
+
+      // Heaven bead click handler
+      heavenBead.addEventListener('click', () => {
+        rods[i].heavenActive = !rods[i].heavenActive;
+        heavenBead.classList.toggle('active');
+        createSparkles(heavenBead);
+        playSound();
+        updateValue();
+      });
+
+      // Earth bead click handlers
+      earthBeads.forEach((bead, index) => {
+        bead.addEventListener('click', () => {
+          const rod = rods[i];
+          
+          // If clicking on an active bead, deactivate it and all beads below it
+          if (index < rod.earthCount) {
+            rod.earthCount = index;
+          } else {
+            // If clicking on an inactive bead, activate it and all beads above it
+            rod.earthCount = index + 1;
+          }
+          
+          // Update visual state of all earth beads
+          earthBeads.forEach((earthBead, beadIndex) => {
+            if (beadIndex < rod.earthCount) {
+              earthBead.classList.add('active');
+            } else {
+              earthBead.classList.remove('active');
+            }
+          });
+          
+          createSparkles(bead);
+          playSound();
+          updateValue();
+        });
+      });
+    }
+
+    function updateValue() {
+      let total = 0;
+      
+      for (let i = 0; i < rods.length; i++) {
+        const rod = rods[i];
+        let rodValue = 0;
+        
+        // Add heaven bead value (5 if active)
+        if (rod.heavenActive) {
+          rodValue += 5;
+        }
+        
+        // Add earth beads value (1 for each active bead)
+        rodValue += rod.earthCount;
+        
+        // Calculate place value (ones, tens, hundreds, etc.)
+        const placeValue = Math.pow(10, 8 - i);
+        total += rodValue * placeValue;
+      }
+      
+      valueDisplay.innerHTML = `${total.toLocaleString()}`;
+      
+      if (total > 0) {
+        valueDisplay.style.animation = 'celebration 0.8s ease-in-out';
+        setTimeout(() => {
+          valueDisplay.style.animation = 'value-pulse 2s ease-in-out infinite';
+        }, 800);
+      }
+      
+      if (total > 5000) {
+        document.getElementById('soroban').classList.add('celebration-mode');
+        intensifyHeartRain();
+        setTimeout(() => {
+          document.getElementById('soroban').classList.remove('celebration-mode');
+        }, 2000);
+      }
+    }
+
+    function intensifyHeartRain() {
+      clearInterval(heartInterval);
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => createFloatingHeart(), i * 100);
+      }
+      setTimeout(() => {
+        startHeartRain();
+      }, 2000);
+    }
+
+    startHeartRain();
+
+    const resetButton = document.getElementById('reset-button');
+    resetButton.addEventListener('click', () => {
+      rods.forEach(rod => {
+        rod.heavenActive = false;
+        rod.earthCount = 0;
+        rod.heavenBead.classList.remove('active');
+        rod.earthBeads.forEach(bead => bead.classList.remove('active'));
+      });
+      updateValue();
+    });
+  </script>
+</body>
+</html>

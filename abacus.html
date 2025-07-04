@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Super Kawaii Soroban Abacus</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #FFB6C1, #E6E6FA, #B0E0E6, #FFE4E1, #F0E68C);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    .soroban {
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5, #F0F8FF);
+      padding: 40px;
+      border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(255,105,180,0.3), 0 0 0 5px #FF69B4, 0 0 0 10px #FFB6C1;
+      border: 5px solid #FF1493;
+      position: relative;
+      overflow: visible;
+    }
+
+    .kawaii-decoration {
+      position: absolute;
+      font-size: 30px;
+      z-index: 10;
+    }
+
+    .deco-1 { top: -20px; left: -20px; }
+    .deco-2 { top: -25px; right: -25px; }
+    .deco-3 { bottom: -30px; left: -30px; }
+    .deco-4 { bottom: -35px; right: -35px; }
+    .deco-5 { top: 50%; left: -40px; }
+    .deco-6 { top: 50%; right: -40px; }
+    .deco-7 { top: -30px; left: 50%; }
+    .deco-8 { bottom: -30px; left: 50%; }
+
+    .title {
+      text-align: center;
+      color: #FF1493;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-shadow: 3px 3px 6px rgba(255,182,193,0.6);
+      position: relative;
+    }
+
+    .title::before {
+      content: '🌟';
+      position: absolute;
+      left: -50px;
+    }
+
+    .title::after {
+      content: '🌟';
+      position: absolute;
+      right: -50px;
+    }
+
+    .frame {
+      background: linear-gradient(135deg, #FFFFFF, #FFF0F5, #F0F8FF);
+      padding: 30px;
+      border-radius: 25px;
+      border: 4px solid #FF1493;
+      box-shadow: inset 0 0 30px rgba(255,182,193,0.4), 0 10px 30px rgba(255,105,180,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      gap: 20px;
+    }
+
+    .frame::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, #FF69B4, #FFB6C1, #E6E6FA, #B0E0E6);
+      border-radius: 35px;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 0 5px;
+    }
+
+    .column-label {
+      position: relative;
+      top: -45px;
+      color: #FF1493;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5);
+      padding: 5px 10px;
+      border-radius: 15px;
+      border: 2px solid #FF69B4;
+      box-shadow: 0 3px 10px rgba(255,105,180,0.3);
+    }
+
+    .rod {
+      position: relative;
+      width: 10px;
+      height: 332px;
+      background: linear-gradient(to bottom, #FF69B4, #FF1493, #FF69B4);
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255,20,147,0.4), inset 0 0 5px rgba(255,255,255,0.3);
+      border: 2px solid #FF1493;
+    }
+
+    .divider {
+      position: absolute;
+      top: 90px;
+      left: -25px;
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(to right, #FF69B4, #FFD700, #FF69B4);
+      border-radius: 4px;
+      border: 2px solid #FF1493;
+      box-shadow: 0 3px 10px rgba(255,20,147,0.4);
+    }
+
+    .heaven-section {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .earth-section {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .bead {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 4px solid #FFFFFF;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .bead::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: 35%;
+      height: 35%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .heaven-bead {
+      background: linear-gradient(135deg, #FFD700, #FFA500, #FF69B4, #DA70D6);
+      box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+      font-size: 33px;
+    }
+
+    .earth-bead {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #87CEEB, #98FB98, #FFB6C1, #DDA0DD);
+      box-shadow: 0 6px 20px rgba(135,206,235,0.4);
+    }
+
+    .earth-bead:nth-child(1) { background: linear-gradient(135deg, #FFB6C1, #FF69B4, #DDA0DD); }
+    .earth-bead:nth-child(2) { background: linear-gradient(135deg, #98FB98, #87CEEB, #FFB6C1); }
+    .earth-bead:nth-child(3) { background: linear-gradient(135deg, #DDA0DD, #98FB98, #87CEEB); }
+    .earth-bead:nth-child(4) { background: linear-gradient(135deg, #87CEEB, #FFB6C1, #98FB98); }
+
+    .bead.active {
+      border-color: #FFD700;
+      box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+    }
+
+    /* Heaven bead moves DOWN when active (towards divider) */
+    .heaven-bead.active {
+      transform: translateY(19px);
+    }
+
+    /* Earth beads move UP when active (towards divider) */
+    .earth-bead.active {
+      transform: translateY(-17px);
+    }
+
+    .value-display {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 28px;
+      color: #FF1493;
+      font-weight: bold;
+      background: linear-gradient(135deg, #FFE4E1, #FFF0F5, #F0F8FF);
+      padding: 20px 30px;
+      border-radius: 25px;
+      border: 4px solid #FF69B4;
+      box-shadow: 0 8px 25px rgba(255,20,147,0.4);
+      position: relative;
+    }
+
+    .value-display::before {
+      content: '💎';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+    }
+
+    .value-display::after {
+      content: '💎';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+    }
+
+    .instructions {
+      text-align: center;
+      margin-top: 25px;
+      color: #FF1493;
+      font-size: 18px;
+      font-weight: bold;
+      opacity: 0.9;
+    }
+
+    .reset-button {
+      display: block;
+      margin: 10px auto;
+      padding: 15px 30px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: linear-gradient(45deg, #FF69B4, #FF1493);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255,20,147,0.4);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .reset-button:hover {
+      background: linear-gradient(45deg, #FF1493, #FF69B4);
+      box-shadow: 0 12px 25px rgba(255,20,147,0.6);
+      transform: translateY(-2px);
+    }
+
+    .reset-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(255,20,147,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="soroban" id="soroban">
+    <div class="kawaii-decoration deco-1">🎀</div>
+    <div class="kawaii-decoration deco-2">🌸</div>
+    <div class="kawaii-decoration deco-3">💖</div>
+    <div class="kawaii-decoration deco-4">🦄</div>
+    <div class="kawaii-decoration deco-5">🌺</div>
+    <div class="kawaii-decoration deco-6">🎨</div>
+    <div class="kawaii-decoration deco-7">🍭</div>
+    <div class="kawaii-decoration deco-8">🧸</div>
+    
+    <div class="title">🌈✨ Super Ábaco de Polina ✨🌈</div>
+    <div class="frame" id="frame"></div>
+    <div class="value-display" id="value-display">0</div>
+    <div class="instructions">
+      🎪 Los gatitos chiquitos valen 1, el gordito vale 5 🎪
+    </div>
+    <button id="reset-button" class="reset-button">Resetear</button>
+  </div>
+
+  <script>
+    const catEmojis = ['🐱', '😸', '😻', '🙀', '😽'];
+
+    const labels = [
+      "100M", "10M ", "1M  ", "100K", "10K ", "1K  ", "100 ", "10  ", "1   "
+    ];
+
+    const frame = document.getElementById('frame');
+    const valueDisplay = document.getElementById('value-display');
+    const rods = [];
+
+    for (let i = 0; i < 9; i++) {
+      const column = document.createElement('div');
+      column.className = 'column';
+
+      const label = document.createElement('div');
+      label.className = 'column-label';
+      label.textContent = labels[i];
+      column.appendChild(label);
+
+      const rod = document.createElement('div');
+      rod.className = 'rod';
+
+      // Heaven section with one bead
+      const heavenSection = document.createElement('div');
+      heavenSection.className = 'heaven-section';
+
+      const heavenBead = document.createElement('div');
+      heavenBead.className = 'bead heaven-bead';
+      heavenBead.textContent = catEmojis[4];
+      heavenSection.appendChild(heavenBead);
+      rod.appendChild(heavenSection);
+
+      // Divider
+      const divider = document.createElement('div');
+      divider.className = 'divider';
+      rod.appendChild(divider);
+
+      // Earth section with four beads
+      const earthSection = document.createElement('div');
+      earthSection.className = 'earth-section';
+
+      const earthBeads = [];
+      for (let j = 0; j < 4; j++) {
+        const earthBead = document.createElement('div');
+        earthBead.className = 'bead earth-bead';
+        earthBead.textContent = catEmojis[j];
+        earthSection.appendChild(earthBead);
+        earthBeads.push(earthBead);
+      }
+
+      rod.appendChild(earthSection);
+      column.appendChild(rod);
+      frame.appendChild(column);
+
+      // Initialize rod state
+      rods.push({
+        heavenBead,
+        earthBeads,
+        heavenActive: false,
+        earthCount: 0
+      });
+
+      // Heaven bead click handler
+      heavenBead.addEventListener('click', () => {
+        rods[i].heavenActive = !rods[i].heavenActive;
+        heavenBead.classList.toggle('active');
+        updateValue();
+      });
+
+      // Earth bead click handlers
+      earthBeads.forEach((bead, index) => {
+        bead.addEventListener('click', () => {
+          const rod = rods[i];
+          
+          if (index < rod.earthCount) {
+            rod.earthCount = index;
+          } else {
+            rod.earthCount = index + 1;
+          }
+          
+          earthBeads.forEach((earthBead, beadIndex) => {
+            if (beadIndex < rod.earthCount) {
+              earthBead.classList.add('active');
+            } else {
+              earthBead.classList.remove('active');
+            }
+          });
+          
+          updateValue();
+        });
+      });
+    }
+
+    function updateValue() {
+      let total = 0;
+      
+      for (let i = 0; i < rods.length; i++) {
+        const rod = rods[i];
+        let rodValue = 0;
+        
+        if (rod.heavenActive) {
+          rodValue += 5;
+        }
+        
+        rodValue += rod.earthCount;
+        
+        const placeValue = Math.pow(10, 8 - i);
+        total += rodValue * placeValue;
+      }
+      
+      valueDisplay.textContent = total.toLocaleString();
+    }
+
+    const resetButton = document.getElementById('reset-button');
+    resetButton.addEventListener('click', () => {
+      rods.forEach(rod => {
+        rod.heavenActive = false;
+        rod.earthCount = 0;
+        rod.heavenBead.classList.remove('active');
+        rod.earthBeads.forEach(bead => bead.classList.remove('active'));
+      });
+      updateValue();
+    });
+  </script>
+</body>
+</html>
